@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+    <ImageView
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="2dp"
+            android:paddingLeft="1dp"
+            android:paddingRight="1dp"
+            android:src="@drawable/pants350px"
+            android:id="@+id/fav_listview_image"
+            android:layout_width="150dp"
+            android:layout_height="150dp"/>
+
+
+    <TextView
+            android:text="name"
+            android:textSize="20sp"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="30dp"
+            android:layout_toRightOf="@+id/fav_listview_image"
+            android:id="@+id/fav_txtview_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/fav_txtview_price"
+            android:layout_below="@+id/fav_txtview_name"
+            android:layout_alignStart="@+id/fav_txtview_name"
+            android:text="price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
+    <Button
+            android:background="@android:color/holo_blue_bright"
+            android:layout_below="@+id/fav_txtview_price"
+            android:layout_alignStart="@+id/fav_txtview_price"
+            android:text="Add to Kart"
+            android:id="@+id/fav_checkout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    <ImageButton
+            android:layout_toRightOf="@+id/fav_txtview_name"
+            android:layout_margin="25dp"
+            android:background="@android:color/white"
+            android:id="@+id/btn_remove"
+            android:src="@drawable/ic_remove_red_24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+</RelativeLayout>

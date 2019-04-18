@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.Toolbar
+
+
+        android:layout_height="wrap_content"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent">
+    <!--
+    <RelativeLayout android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+        <ImageView
+                android:padding="25dp"
+                android:id="@+id/shoppingkart_toolbar_icon"
+                android:title="Kart"
+                android:src="@drawable/shopping_cart_black_24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+    <ImageView
+            android:layout_toRightOf="@+id/shoppingkart_toolbar_icon"
+            android:padding="25dp"
+
+            android:title="Favorites"
+            android:id="@+id/favorites_toolbar_icon"
+            android:src="@drawable/filledin_favorite_black_24dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+-->
+</androidx.appcompat.widget.Toolbar>

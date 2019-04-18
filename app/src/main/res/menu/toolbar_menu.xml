@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+          android:id="@+id/favorites_menu"
+          android:orderInCategory="1"
+          android:title="Favs"
+          android:visible="true"
+          android:enabled="true"
+          app:showAsAction="always"
+          android:icon="@drawable/filledin_favorite_black_24dp"/>
+    <item android:id="@+id/shoppingkart_menu"
+          android:orderInCategory="1"
+          android:visible="true"
+          android:enabled="true"
+          android:title="ShoppingKart"
+          app:showAsAction="always"
+          android:icon="@drawable/shopping_cart_black_24dp"/>
+
+</menu>

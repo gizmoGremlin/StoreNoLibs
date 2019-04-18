@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+  <!--  <include layout="@layout/toolbar"/> -->
+    <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <androidx.cardview.widget.CardView
+                    android:id="@+id/cardview_backpacks"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp">
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:orientation="vertical">
+
+                    <ImageView
+                            android:src="@drawable/backpacks350px"
+                            android:id="@+id/image_backpack"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                    <TextView
+                            android:textStyle="bold"
+                            android:text="category1"
+                            android:id="@+id/textview_backpacks"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                    android:layout_below="@id/cardview_backpacks"
+                    android:id="@+id/cardview_socks"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp">
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:orientation="vertical">
+
+                    <ImageView
+                            android:src="@drawable/fancysocks"
+                            android:id="@+id/socks_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                    <TextView
+                            android:id="@+id/text_in_card2"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="category2"/>
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                    android:layout_below="@+id/cardview_socks"
+                    android:id="@+id/cardview_pants"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp">
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:orientation="vertical">
+
+                    <ImageView
+                            android:src="@drawable/pants350px"
+                            android:id="@+id/pants_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                    <TextView
+                            android:id="@+id/text_in_card3"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                    android:layout_below="@id/cardview_pants"
+                    android:id="@+id/cardview_polo"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp">
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:orientation="vertical">
+
+                    <ImageView
+                            android:src="@drawable/polos350px"
+                            android:id="@+id/polo_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                    <TextView
+                            android:id="@+id/text_in_card4"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+            <androidx.cardview.widget.CardView
+                    android:layout_below="@id/cardview_polo"
+                    android:id="@+id/cardview_sweatshirts"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp">
+                <LinearLayout android:layout_width="match_parent"
+                              android:layout_height="wrap_content"
+                              android:orientation="vertical">
+
+                    <ImageView
+                            android:src="@drawable/sweatshirts350px"
+                            android:id="@+id/sweatshirt_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"/>
+                    <TextView
+                            android:id="@+id/textview_sweatshirts"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="category2"/>
+
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+
+        </RelativeLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.pickledpepper.storenolibs.ui.fragments.ProductListFragment">
+
+    <include layout="@layout/toolbar"
+             android:id="@+id/frag_toolbar"/>
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:layout_below="@id/frag_toolbar"
+            android:id="@+id/swipe_refresh_product_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/product_list_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clipToPadding="false"/>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <include
+            android:id="@+id/progressBar"
+            layout="@layout/progress_bar"
+            android:visibility="gone"/>
+</RelativeLayout>
