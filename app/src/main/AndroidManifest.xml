@@ -3,6 +3,8 @@
           package="com.pickledpepper.storenolibs">
 <uses-permission android:name="android.permission.INTERNET"/>
     <application
+            android:hardwareAccelerated="false"
+            android:largeHeap="true"
             android:name="com.pickledpepper.storenolibs.StoreApp"
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"

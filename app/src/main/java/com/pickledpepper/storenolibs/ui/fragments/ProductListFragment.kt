@@ -31,9 +31,9 @@ import com.pickledpepper.storenolibs.util.reObserve
 
 class ProductListFragment : Fragment() {
 
-    companion object {
+  /*  companion object {
         fun newInstance() = ProductListFragment()
-    }
+    }*/
     var theBundle = String()
     private lateinit var viewModel: ProductListViewModel
     private lateinit var productListAdapter: ProductListAdapter
@@ -268,7 +268,14 @@ class ProductListFragment : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
          when(item?.itemId){
             R.id.shoppingkart_menu -> {
-                //transaction
+                activity.let {
+                    if (it is FragmentActivity){
+                        it.supportFragmentManager.beginTransaction()
+                            .replace(R.id.fragment_container,ShoppingKartFragment(), "ShoppingKart_Fragment")
+                            .addToBackStack(null)
+                            .commit()
+                    }
+                }
 
                 Log.d("InOptionsMenu", "ShoppingKart clicked")
                 return true

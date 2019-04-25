@@ -117,10 +117,11 @@ class Repository (val db: FirebaseFirestore) {
             querySnapshot ->
             var myKartList = mutableListOf<KartProduct>()
             for (doc in querySnapshot){
-                var kartItem = KartProduct()
+                var kartItem = KartProduct(quantity = 1)
                 kartItem = doc.toObject(KartProduct::class.java)
                 myKartList.add(kartItem)
             }
+            Log.w("load Kart List", "KartList: ${myKartList} ")
             kartList.postValue(myKartList)
             isDataLoading.postValue(false)
         }

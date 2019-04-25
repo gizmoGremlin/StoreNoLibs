@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:card_view="http://schemas.android.com/tools"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+    <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            app:contentPadding="10dp"
+            card_view:cardCornerRadius="4dp"
+            card_view:cardBackgroundColor="@android:color/white"
+            card_view:cardElevation="4dp"
+            card_view:cardMaxElevation="4dp">
+        <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            <ImageView
+                    android:src="@drawable/pants350px"
+                    android:id="@+id/kart_item_image"
+                    android:scaleType="centerCrop"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"/>
+
+            <TextView
+
+
+                    android:layout_toRightOf="@+id/kart_item_image"
+                    android:text="product_name"
+                    android:fontFamily="sans-serif"
+                    android:id="@+id/kart_item_title"
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="22dp"
+            />
+
+            <TextView
+
+
+
+                    android:text="Kart_item_description"
+                    android:fontFamily="sans-serif"
+                    android:layout_below="@id/kart_item_title"
+                    android:layout_alignStart="@+id/kart_item_title"
+                    android:id="@+id/kart_item_description"
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+            />
+            <TextView
+
+
+
+                    android:text="33"
+                    android:fontFamily="sans-serif"
+                    android:layout_below="@id/kart_item_description"
+                    android:layout_alignStart="@+id/kart_item_description"
+                    android:id="@+id/kart_item_price"
+                    android:textSize="18sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+            />
+            <TextView
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/kart_txt_view_display_quantity"
+                    android:text="1"
+                    android:layout_toRightOf="@+id/kart_item_quantity_spinner"
+                    android:layout_alignBottom="@+id/kart_item_quantity_spinner"
+                    android:layout_marginBottom="5dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+            />
+            <androidx.appcompat.widget.AppCompatSpinner
+
+
+
+
+                    android:fontFamily="sans-serif"
+                    android:layout_below="@id/kart_item_price"
+                    android:layout_alignStart="@+id/kart_item_price"
+                    android:id="@+id/kart_item_quantity_spinner"
+                    android:textSize="10sp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginTop="8dp"
+            />
+
+            <TextView
+                    android:layout_marginLeft="40dp"
+                    android:id="@+id/kart_text_view_total_price"
+                    android:text="Total $"
+                    android:layout_toRightOf="@+id/kart_txt_view_display_quantity"
+                    android:layout_alignBottom="@+id/kart_item_quantity_spinner"
+                    android:layout_marginBottom="5dp"
+                    android:textSize="22sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+            />
+        </RelativeLayout>
+
+
+
+
+
+
+    </androidx.cardview.widget.CardView>
+
+</LinearLayout>

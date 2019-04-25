@@ -7,7 +7,16 @@ class FavItemToKartItem {
 
 
     fun FromFavItemToKartProduct(favItem: FavProducts) :KartProduct{
-        return KartProduct(favItem.uId,favItem.SKU,favItem.Category,favItem.name,favItem.description,favItem.price,favItem.image)
+        return KartProduct(
+            favItem.uId,
+            favItem.SKU,
+            favItem.Category,
+            favItem.name,
+            favItem.description,
+            favItem.price,
+            favItem.image,
+            1
+        )
     }
 
 
