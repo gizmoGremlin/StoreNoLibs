@@ -79,7 +79,7 @@ init {
     }
 
 }
-
+        val removeButton: ImageButton = itemView.findViewById(R.id.kart_btn_remove)
         var quantitySpinner :Spinner= itemView.findViewById(R.id.kart_item_quantity_spinner)
         val itemTotal = itemView.findViewById<TextView>(R.id.kart_text_view_total_price)
         val kartImage = itemView.findViewById<ImageView>(R.id.kart_item_image)
@@ -111,6 +111,27 @@ init {
             displayQuantity.text = kartItem.quantity.toString()
 
             itemTotal.text = (kartItem.quantity * kartItem.price).round(2).toString()
+
+            //set Remove Button listener
+            val btnRemoveListener = View.OnClickListener {
+
+
+                kartList.removeAt(adapterPosition)
+                viewModel.deleteKartItem(kartItem.uId,kartItem.SKU)
+                // recalculate totals
+                var myTotal = 0.0
+                for (item in kartList){
+                    myTotal += (item.price * item.quantity)
+                }
+
+                callback.getTotal(myTotal.round(2))
+                myTotal = 0.0
+                notifyItemRemoved(adapterPosition)
+                notifyItemRangeChanged(adapterPosition,kartList.size)
+
+            }
+            removeButton.setOnClickListener(btnRemoveListener)
+
             quantitySpinner.setSelection(0,false)
             quantitySpinner?.onItemSelectedListener = object : AdapterView.OnItemSelectedListener{
                 override fun onNothingSelected(parent: AdapterView<*>?) {

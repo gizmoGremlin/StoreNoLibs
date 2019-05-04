@@ -6,31 +6,46 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
 import com.pickledpepper.storenolibs.common.Categories
-import com.pickledpepper.storenolibs.data.FavProducts
-import com.pickledpepper.storenolibs.data.KartProduct
-import com.pickledpepper.storenolibs.data.Product
+import com.pickledpepper.storenolibs.data.*
 import com.pickledpepper.storenolibs.util.ListToMap
 
 class Repository (val db: FirebaseFirestore) {
 
     // add a single document
-    var lastResultArrayPolo: ArrayList<DocumentSnapshot> = arrayListOf()
-    var lastResultArraySweatShirt: ArrayList<DocumentSnapshot> = arrayListOf()
-    var lastResultArrayBags: ArrayList<DocumentSnapshot> = arrayListOf()
-    var lastResultArrayPants: ArrayList<DocumentSnapshot> = arrayListOf()
-    var lastResultArrayBackpacks: ArrayList<DocumentSnapshot> = arrayListOf()
-    var lastResultArraySocks: ArrayList<DocumentSnapshot> = arrayListOf()
-    private var kartList:MutableLiveData<List<KartProduct>> = MutableLiveData()
+    var lastResultArrayBasedOnCategory: ArrayList<DocumentSnapshot> = arrayListOf()
+    var myCategory = ""
+
+    private var categoryList: MutableLiveData<List<StoreCategory>> = MutableLiveData()
+    private var kartList : MutableLiveData<List<KartProduct>> = MutableLiveData()
     private var favoritesList: MutableLiveData<List<FavProducts>> = MutableLiveData()
     private var singleProduct: MutableLiveData<Product> = MutableLiveData()
+    private var singleUserProfile: MutableLiveData<UserProfile> = MutableLiveData()
     private var isDataLoading: MutableLiveData<Boolean> = MutableLiveData()
     private var products: MutableLiveData<List<Product>> = MutableLiveData()
+    fun getSingleUserProfile(): LiveData<UserProfile> = singleUserProfile
+    fun getCategoryList(): LiveData<List<StoreCategory>> = categoryList
     fun getKartList(): LiveData<List<KartProduct>> = kartList
     fun getFavList():LiveData<List<FavProducts>> = favoritesList
     fun getProducts(): LiveData<List<Product>> = products
     fun getSingleProduct():LiveData<Product> = singleProduct
     fun isDataLoading() = isDataLoading
 
+
+    fun deleteShoppingKartItem(uid:String, sku: Int){
+        var kartQuery = db.collection("ShoppingKart")
+            .whereEqualTo("sku", sku)
+            .whereEqualTo("uid", uid)
+            .get().addOnCompleteListener({ task ->
+                if (task.isSuccessful) {
+                    val result =  task.result
+                    Log.d("Repo Delete kartItem", "Before task deleted: ${task.result}")
+                    for (item in result!!)
+
+                        db.collection("ShoppingKart").document(item.id).delete()
+                    Log.d("Repo Delete Kart Item", "task deleted: ${task.result}")
+                }
+            })
+    }
 
     fun insertSingleValue(product: Product, collection: String) {
 
@@ -44,6 +59,24 @@ class Repository (val db: FirebaseFirestore) {
             }
 
     }
+    fun loadCategories(){
+        val ref = db.collection("category")
+
+        ref.get()
+            .addOnSuccessListener { result ->
+                var tempCategoryList = mutableListOf<StoreCategory>()
+                for (doc in result){
+                    var storeCategory = StoreCategory()
+                    storeCategory= doc.toObject(StoreCategory::class.java)
+                    tempCategoryList.add(storeCategory)
+                }
+
+                categoryList.postValue(tempCategoryList)
+
+            }
+    }
+
+
     fun loadSingleProduct(sku: Int) {
         isDataLoading.postValue(true)
 
@@ -154,38 +187,15 @@ class Repository (val db: FirebaseFirestore) {
         fun loadProducts(category: String) {
             //Set result array based on Category
 
-            var lastResultArrayBasedOnCategory: ArrayList<DocumentSnapshot> = arrayListOf()
-            var myCategory = String()
-            when(category){
-                Categories.SWEATSHIRTS.storeCategories ->{
-                    lastResultArrayBasedOnCategory =lastResultArraySweatShirt
-                    myCategory = Categories.SWEATSHIRTS.storeCategories
-                }
-                Categories.SOCKS.storeCategories -> {
-                    lastResultArrayBasedOnCategory = lastResultArraySocks
-                    myCategory = Categories.SOCKS.storeCategories
-                }
-                Categories.PANTS.storeCategories -> {
-                    lastResultArrayBasedOnCategory = lastResultArrayPants
-                    myCategory = Categories.PANTS.storeCategories
-                }
-                Categories.BACKPACKS.storeCategories -> {
-                    lastResultArrayBasedOnCategory =  lastResultArrayBackpacks
-                    myCategory = Categories.BACKPACKS.storeCategories
-                }
-                Categories.POLOS.storeCategories ->{
-                    lastResultArrayBasedOnCategory = lastResultArrayPolo
-                    myCategory = Categories.POLOS.storeCategories
-                }
-                Categories.BAGS.storeCategories -> {
-                    lastResultArrayBasedOnCategory =  lastResultArrayBags
-                    myCategory = Categories.BAGS.storeCategories
-                }
-            }
+
+
 
             isDataLoading.postValue(true)
-            Log.d("LoadProductsCategoryAf", "Category ${myCategory}")
-            if(lastResultArrayBasedOnCategory.size ==0){
+
+            if(lastResultArrayBasedOnCategory.size ==0 || myCategory != category ){
+                var tempCategory = category
+
+
             val getProducts = db.collection("productList")
                 .whereEqualTo("category", category)
                 .orderBy("sku")
@@ -195,29 +205,9 @@ class Repository (val db: FirebaseFirestore) {
                     var myList = mutableListOf<Product>()
                     Log.d("ResultArray", "result: ${result.size()}")
                     for (documents in result) {
+                        lastResultArrayBasedOnCategory.add(result.documents.last())
+                        myCategory = tempCategory
 
-                        when(myCategory){
-                            Categories.SWEATSHIRTS.storeCategories ->{
-                             lastResultArraySweatShirt.add(result.documents.last())
-                            }
-                            Categories.SOCKS.storeCategories -> {
-                                lastResultArraySocks.add(result.documents.last())
-                            }
-                            Categories.PANTS.storeCategories -> {
-                                lastResultArrayPants.add(result.documents.last())
-                            }
-                            Categories.BACKPACKS.storeCategories -> {
-                                lastResultArrayBackpacks.add(result.documents.last())
-                            }
-                            Categories.POLOS.storeCategories ->{
-                                lastResultArrayPolo.add(result.documents.last())
-                            }
-                            Categories.BAGS.storeCategories -> {
-                                lastResultArrayBags.add(result.documents.last())
-                            }
-                        }
-                       // lastResultArrayBasedOnCategory.add(result.documents.last())
-                        Log.d("ResultArray", "size: ${lastResultArrayBasedOnCategory.size}")
                         var pro = Product()
                         pro = documents.toObject(Product::class.java)
                         myList.add(pro)
@@ -232,13 +222,13 @@ class Repository (val db: FirebaseFirestore) {
                 .addOnFailureListener { exception ->
                     Log.d("error", "Error getting documents: ", exception)
                 }
-            }else{
-                Log.d("InsideGetMoreElse", "Else Query Fired")
+            }else if (myCategory != "" && myCategory == category ){
+               var tempCategory = category
                 isDataLoading.postValue(true)
                 val getMoreProducts = db.collection("productList")
                     .whereEqualTo("category", category)
                     .orderBy("sku")
-                    .startAfter(lastResultArrayBasedOnCategory.get(lastResultArrayBasedOnCategory.size - 1))
+                    .startAfter(lastResultArrayBasedOnCategory.get(lastResultArrayBasedOnCategory.size -1))
                     .limit(10)
                     .get()
                     .addOnSuccessListener { result ->
@@ -246,28 +236,10 @@ class Repository (val db: FirebaseFirestore) {
                         Log.d("InsideGetMoreSucc", "DocumentSnapshot added with ID: ${result.toString()}")
                         for (documents in result) {
 
-                            when(myCategory){
-                                Categories.SWEATSHIRTS.storeCategories ->{
-                                    lastResultArraySweatShirt.add(result.documents.last())
-                                }
-                                Categories.SOCKS.storeCategories -> {
-                                    lastResultArraySocks.add(result.documents.last())
-                                }
-                                Categories.PANTS.storeCategories -> {
-                                    lastResultArrayPants.add(result.documents.last())
-                                }
-                                Categories.BACKPACKS.storeCategories -> {
-                                    lastResultArrayBackpacks.add(result.documents.last())
-                                }
-                                Categories.POLOS.storeCategories ->{
-                                    lastResultArrayPolo.add(result.documents.last())
-                                }
-                                Categories.BAGS.storeCategories -> {
-                                    lastResultArrayBags.add(result.documents.last())
-                                }
-                            }
-                            Log.d("InsideGetMoreSucc", "DocumentSnapshot added with ID: ${result.toString()}")
-                            //lastResultArrayBasedOnCategory.add(result.documents.last())
+
+                            lastResultArrayBasedOnCategory.add(result.documents.last())
+                            myCategory = tempCategory
+
                             var pro = Product()
                             pro = documents.toObject(Product::class.java)
                             myList.add(pro)
@@ -302,10 +274,45 @@ class Repository (val db: FirebaseFirestore) {
                 })
 
             }
-
+    fun insertUserProfile(user: UserProfile){
+        val ref =  db.collection("UserProfile")
+        ref.add(user)
+            .addOnSuccessListener {
+                it ->
+                Log.d("InsertUserProfileRepo", "user_Added: ${user}")
+            }
 
 
     }
+    fun loadUserProfile(uid: String){
+
+        val ref =  db.collection("UserProfile").whereEqualTo("uid", uid)
+        ref.get().addOnSuccessListener {
+            var counter = 0
+            for (doc in it) {
+                if (counter == 0) {
+
+                    var myUser = UserProfile(doc.get("uid").toString(),doc.get("fullName").toString(),
+                        doc.get("userName").toString(), doc.get("userPass").toString(),doc.get("userEmail").toString())
+
+                    singleUserProfile.postValue(myUser)
+
+
+                } else {
+                    break
+                }
+            }
+        }.addOnFailureListener {
+                e ->
+            Log.d("RepoSingleUserProfile","error ${e}")
+        }
+            }
+        }
+
+
+
+
+
 
 
 

@@ -2,19 +2,25 @@ package com.pickledpepper.storenolibs.ui.fragments
 
 import android.os.Bundle
 import android.util.Log
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
+
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.pickledpepper.storenolibs.*
+import com.pickledpepper.storenolibs.adapter.HomeListAdapter
 import com.pickledpepper.storenolibs.common.Categories
 import com.pickledpepper.storenolibs.data.Product
 import com.pickledpepper.storenolibs.ui.viewmodels.HomeViewModel
+import com.pickledpepper.storenolibs.util.SpacesItemDecoration
 import com.pickledpepper.storenolibs.util.observeOnce
+import kotlinx.android.synthetic.main.home_fragment.*
 import kotlin.random.Random
 
 
@@ -25,12 +31,13 @@ class HomeFragment : Fragment() {
     companion object {
         fun newInstance() = HomeFragment()
     }
+    private lateinit var mAdapter : HomeListAdapter
 
-    var categoryOfImageClickListner:View.OnClickListener? =null
     private var viewModel: HomeViewModel? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         viewModel = HomeViewModel.getInstance(activity!!)
-
+        viewModel?.loadCategories()
         super.onCreate(savedInstanceState)
     }
     override fun onCreateView(
@@ -39,160 +46,72 @@ class HomeFragment : Fragment() {
     ): View? {
 
 
-
+        setHasOptionsMenu(true);
 
         return inflater.inflate(R.layout.home_fragment, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val backpackImage = view?.findViewById(R.id.image_backpack) as ImageView
-        val poloImage = view?.findViewById(R.id.polo_image) as ImageView
-        val pantsImage = view?.findViewById(R.id.pants_image) as ImageView
-        val socksImage = view?.findViewById(R.id.socks_image) as ImageView
-        val sweatshirtImage = view?.findViewById(R.id.sweatshirt_image) as ImageView
+        mAdapter = this.context?.let { HomeListAdapter(it) }!!
+        val myLayoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
 
-        categoryOfImageClickListner = View.OnClickListener { view ->
+        home_frag_recyclerview.addItemDecoration(SpacesItemDecoration(4))
 
-            when (view.id) {
+        home_frag_recyclerview.apply {
+            adapter = mAdapter
+            mAdapter.onItemClick = {
+                var frag =  ProductListFragment()
+                var myCategoryBundle  = Bundle()
+                myCategoryBundle.putString("CATEGORY", it.categoryName )
 
-                R.id.image_backpack -> {// viewModel?.setCategory(Categories.BACKPACKS.storeCategories)
-                    var args = Bundle()
-                    args.putString("CATEGORY", Categories.BACKPACKS.storeCategories)
-                    val productFrag = ProductListFragment()
-
-                    productFrag.arguments = args
-                    val fragmentManger = activity?.let {
-
-                        if (it is FragmentActivity)
-                            it.supportFragmentManager.beginTransaction()
-                                .replace(R.id.fragment_container, productFrag, "PRODUCTFRAG")
-                                //    .addToBackStack(null)
-                                .commit()
-                        Log.d("HOMEFRAMENT", "Navigation")
-                    }
-                }
-                R.id.polo_image -> {
-                    //viewModel?.setCategory(Categories.POLOS.storeCategories)
-                    var args = Bundle()
-                    args.putString("CATEGORY", Categories.POLOS.storeCategories)
-                    val productFrag = ProductListFragment()
-
-                    productFrag.arguments = args
-                    val fragmentManger = activity?.let {
-
-                        if (it is FragmentActivity)
-                            it.supportFragmentManager.beginTransaction()
-                                .replace(R.id.fragment_container, productFrag, "PRODUCTFRAG")
-                                //    .addToBackStack(null)
-                                .commit()
-                        Log.d("HOMEFRAMENT", "Navigation")
-
-                    }
-                }
-                R.id.pants_image -> {
-                    //   viewModel?.setCategory(Categories.PANTS.storeCategories)
-                    var args = Bundle()
-                    args.putString("CATEGORY", Categories.PANTS.storeCategories)
-                    val productFrag = ProductListFragment()
-
-                    productFrag.arguments = args
-                    val fragmentManger = activity?.let {
-
-                        if (it is FragmentActivity)
-                            it.supportFragmentManager.beginTransaction()
-                                .replace(R.id.fragment_container, productFrag, "PRODUCTFRAG")
-                                //    .addToBackStack(null)
-                                .commit()
-                        Log.d("HOMEFRAMENT", "Navigation")
-                    }
-                }
-                R.id.socks_image -> {//viewModel?.setCategory(Categories.SOCKS.storeCategories)
-                    var args = Bundle()
-                    args.putString("CATEGORY", Categories.SOCKS.storeCategories)
-                    val productFrag = ProductListFragment()
-
-                    productFrag.arguments = args
-                    val fragmentManger = activity?.let {
-
-                        if (it is FragmentActivity)
-                            it.supportFragmentManager.beginTransaction()
-                                .replace(R.id.fragment_container, productFrag, "PRODUCTFRAG")
-                                //    .addToBackStack(null)
-                                .commit()
-                        Log.d("HOMEFRAMENT", "Navigation")
-                    }
-                }
-                R.id.sweatshirt_image -> {//viewModel?.setCategory(Categories.SWEATSHIRTS.storeCategories)
-
-                    var args = Bundle()
-                    args.putString("CATEGORY", Categories.SWEATSHIRTS.storeCategories)
-                    val productFrag = ProductListFragment()
-
-                    productFrag.arguments = args
-                    val fragmentManger = activity?.let {
-
-                        if (it is FragmentActivity)
-                            it.supportFragmentManager.beginTransaction()
-                                .replace(R.id.fragment_container, productFrag, "PRODUCTFRAG")
-                                //    .addToBackStack(null)
-                                .commit()
-                        Log.d("HOMEFRAMENT", "Navigation")
-
-                    }
-                }
+                frag.arguments = myCategoryBundle
+                (context as FragmentActivity).supportFragmentManager.beginTransaction()
+                    .replace(com.pickledpepper.storenolibs.R.id.fragment_container, frag)
+                    .commit()
             }
+            setHasFixedSize(true)
+            layoutManager = myLayoutManager
+            Log.d("HomeAdapter",layoutManager.toString())
+            viewModel?.getCategoryList()?.observe(viewLifecycleOwner, Observer {
+                    it.let {
+                        Log.d("home getCategory",it.toString())
+                        mAdapter.setAdapterList(it)
+                    }
+            })
         }
-            backpackImage.setOnClickListener(categoryOfImageClickListner)
-            socksImage.setOnClickListener(categoryOfImageClickListner)
-            pantsImage.setOnClickListener(categoryOfImageClickListner)
-            poloImage.setOnClickListener(categoryOfImageClickListner)
-            sweatshirtImage.setOnClickListener(categoryOfImageClickListner)
+
 
         }
 
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
-
+        var activity = activity as AppCompatActivity
+        activity.setSupportActionBar(home_frag_toolbar as Toolbar)
+        activity.supportActionBar?.setElevation(15.0F)
+       // activity.supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        activity.supportActionBar?.setDisplayShowTitleEnabled(false)
+        activity.supportActionBar?.show()
         super.onActivityCreated(savedInstanceState)
 
 
-      /*  var categoryObservable :LiveData<String> = viewModel?.getCategoryForNavigation()!!
 
-            categoryObservable.observeOnce(viewLifecycleOwner, Observer {
-
-                categoryObservable.removeObservers(this)
-                it.let {
-                    var args = Bundle()
-                    args.putString("CATEGORY", it)
-                    val productFrag = ProductListFragment()
-
-                    productFrag.arguments = args
-
-
-                    val fragmentManger = activity?.let {
-
-                        if (it is FragmentActivity)
-                            it.supportFragmentManager.beginTransaction()
-                                .replace(R.id.fragment_container, productFrag, "PRODUCTFRAG")
-                            //    .addToBackStack(null)
-                                .commit()
-                        Log.d("HOMEFRAMENT", "Navigation")
-
-                        //viewModel?.ResetCategoryForNav()
-
-                    }
-
-
-                }
-
-
-            })*/
         }
 
 
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        inflater?.inflate(R.menu.toolbar_menu, menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        Log.d("InHomeOptionsMenue", "hi")
+
+
+
+        return super.onOptionsItemSelected(item)
+    }
 
 
     }

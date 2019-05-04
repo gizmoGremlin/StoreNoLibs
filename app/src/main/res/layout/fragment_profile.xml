@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+                android:background="@drawable/bluegradient"
+             tools:context=".ui.fragments.ProfileFragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <ImageView
+            android:layout_marginTop="44dp"
+            android:src="@drawable/origami"
+            android:id="@+id/profile_image"
+            android:layout_centerHorizontal="true"
+            android:layout_width="200dp"
+            android:layout_height="200dp"/>
+
+    <View
+            android:layout_marginTop="8dp"
+            android:layout_below="@+id/profile_image"
+            android:id="@+id/profile_divider"
+            style="@style/Divider"/>
+    <TextView
+            android:layout_below="@id/profile_divider"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:id="@+id/profile_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:text="Profile Name"/>
+    <TextView
+            android:layout_alignStart="@+id/profile_name"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="4dp"
+            android:layout_below="@+id/profile_name"
+            android:layout_marginBottom="8dp"
+            android:id="@+id/profile_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="22sp"
+            android:text="Profile UserName"/>
+    <TextView
+            android:layout_alignStart="@+id/profile_user_name"
+            android:id="@+id/profile_email"
+            android:layout_marginTop="4dp"
+            android:layout_below="@+id/profile_user_name"
+            android:text="email"
+            android:textSize="16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    <View
+            android:layout_marginTop="8dp"
+            android:layout_below="@+id/profile_email"
+            android:id="@+id/profile_divider2"
+            style="@style/Divider"/>
+
+
+
+</RelativeLayout>

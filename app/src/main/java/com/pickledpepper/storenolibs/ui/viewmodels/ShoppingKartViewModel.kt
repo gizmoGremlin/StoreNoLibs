@@ -24,5 +24,6 @@ class ShoppingKartViewModel : ViewModel() {
     fun loadKartList(uid : String){
         repository.loadListOfKartItems(uid)
     }
+    fun deleteKartItem(uid:String,sku:Int)= repository.deleteShoppingKartItem(uid, sku)
 
 }

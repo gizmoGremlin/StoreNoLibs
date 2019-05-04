@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -25,6 +26,9 @@ class DetailFragment : Fragment() {
     companion object {
         fun newInstance() = DetailFragment()
     }
+    var detailproductName:TextView? = null
+    var detailDescription:TextView? =null
+    var detailPrice:TextView? =null
     var detailImage:ImageView? =null
     var detailBundle :Int? = null
     private lateinit var viewModel: DetailViewModel
@@ -37,7 +41,6 @@ class DetailFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(DetailViewModel::class.java)
         // TODO: Use the ViewModel
 
-        detailBundle = arguments?.getInt("PRODUCT_SKU")
         viewModel.loadSingleProduct(detailBundle!!)
         viewModel.getSingleProduct().observe(this, Observer {
             detailProduct=it
@@ -46,8 +49,10 @@ class DetailFragment : Fragment() {
                     RoundedCornersTransformation(8, 5)
                 )
             ).into(detailImage!!)
-            Log.d("detailFragOnCreateView","${detailProduct.toString()}")
-
+            Log.d("detailFragOnCreateView","detailProduct.name")
+            detailproductName?.text = detailProduct?.name
+            detailDescription?.text = detailProduct?.description
+            detailPrice?.text = detailProduct?.price.toString()
         })
         viewModel.isDataLoading().observe(this, Observer {
             it.let {
@@ -56,6 +61,8 @@ class DetailFragment : Fragment() {
 
             }
         })
+
+        //move this to onActivity creeated
 
 
         return inflater.inflate(R.layout.detail_fragment, container, false)
@@ -66,18 +73,36 @@ class DetailFragment : Fragment() {
 
 
 
-
     }
 
-
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        detailBundle = arguments?.getInt("PRODUCT_SKU")
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         Log.d("detailFragOnViewCreated","${detailProduct.toString()}")
+
+
+
+        detailproductName =  view?.findViewById<TextView>(R.id.detailname)
+        detailDescription = view?.findViewById<TextView>(R.id.detail_desc)
+        detailPrice = view?.findViewById<TextView>(R.id.detail_price)
+
+
+
+
+
+
+
+
+
+
          detailImage = view.findViewById(R.id.detail_image_view)
         var activity = activity as AppCompatActivity
         activity.setSupportActionBar(detail_frag_toolbar as Toolbar)
         activity.supportActionBar?.setElevation(15.0F)
+        activity.supportActionBar?.setDisplayShowTitleEnabled(false)
         activity.supportActionBar?.show()
 
 
