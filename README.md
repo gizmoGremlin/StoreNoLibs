@@ -1,3 +1,8 @@
 # StoreNoLibs
 Ecommerce template inProgress
-https://github.com/gizmoGremlin/StoreNoLibs/issues/1
+
+<p align="center">
+  <img src="https://github.com/gizmoGremlin/StoreNoLibs/issues/1">
+
+</p>
+
